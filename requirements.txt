@@ -1,0 +1,9 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: linux-64
+ipykernel=6.25.0=py39h2f386ee_0
+matplotlib=3.7.2=py39h06a4308_0
+numpy=1.21.5=py39h6c91a56_3
+numpy-base=1.21.5=py39ha15fc14_3
+numpydoc=1.5.0=py39h06a4308_0
+pandas=2.0.3=py39h1128e8f_0

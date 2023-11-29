@@ -1,0 +1,56 @@
+---
+title: Quick analysis
+format:
+  pdf:
+    fontsize: 10pt
+---
+
+# Import libraries
+
+Import installed libraries.
+```{python}
+import sys
+from pathlib import Path
+import pandas as pd
+```
+
+Set root directory.
+```{python}
+ROOT = Path(sys.path[0]).parent
+sys.path.append(str(ROOT.joinpath('code')))
+```
+
+Import project modules and functions.
+```{python}
+from simulategrid import capteurs_numeric
+from pylib import simulate_point
+```
+
+# Import data
+
+Read table of sensor locations.
+```{python}
+sensors = pd.read_csv(ROOT.joinpath('data', 'capteur.csv'), sep='\t')
+xycoord = capteurs_numeric(sensors)
+```
+
+# Validation
+
+Launching from (x = 2.5 km, y = 3.1 km, r = 10 m), verification from [sieprog.ch](https://sieprog.ch/#c/pollution) says:
+
+> S2	5.35 détections/paquet (±2.00)
+>
+> S3	2.10 détections/paquet (±1.00)
+> 
+> Les autres capteurs ne détectent aucun paquet.
+
+For 100 packets, we expect 535\(\pm\)200 for S2 and 210\(\pm\)100 for S3. The following output confirms that our code works properly.
+
+```{python}
+#| output: asis
+#| 
+out = simulate_point(xycoord)
+for i, paq in enumerate(out['paquets']):
+    print(f'S{i:d}  {paq:d} paquets\n')
+print(f"Plausibilité: {out['plausibilite']:0.5f}\n")
+```
