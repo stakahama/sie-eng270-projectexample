@@ -30,7 +30,7 @@ from pylib import simulate_point
 
 Read table of sensor locations.
 ```{python}
-sensors = pd.read_csv(ROOT.joinpath('data', 'capteur.csv'), sep='\t')
+sensors = pd.read_csv(ROOT.joinpath('data', 'capteurs.csv'), sep='\t')
 xycoord = capteurs_numeric(sensors)
 ```
 
@@ -49,7 +49,7 @@ For 100 packets, we expect 535\(\pm\)200 for S2 and 210\(\pm\)100 for S3. The fo
 ```{python}
 #| output: asis
 #| 
-out = simulate_point(xycoord)
+out = simulate_point(xycoord, 2500, 3100, 10, 100)
 for i, paq in enumerate(out['paquets']):
     print(f'S{i:d}  {paq:d} paquets\n')
 print(f"Plausibilité: {out['plausibilite']:0.5f}\n")

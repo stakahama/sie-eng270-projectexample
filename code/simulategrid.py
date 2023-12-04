@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 import pandas as pd
-from pylib import simulate_grid
+from pylib import simulate_grid, grille2struct
 
 def stripkm(string):
     return string.replace(' km', '')
@@ -16,9 +16,18 @@ if __name__ == '__main__':
 
     ROOT = Path(sys.path[0]).parent
 
-    sensors = pd.read_csv(ROOT.joinpath('data', 'capteur.csv'), sep='\t')
     outfile = ROOT.joinpath('results', 'plausibilite.csv')
-    
+
+    ## sensors    
+    sensors = pd.read_csv(ROOT.joinpath('data', 'capteurs.csv'), sep='\t')
     xycoord = capteurs_numeric(sensors)
-    
-    simulate_grid(xycoord, outfile)
+
+    ## grid
+    grille = grille2struct(r0 = (100, 4900),
+                           rmax = (8000, 0),
+                           dr = (200, -200))
+    r = 10
+    iterations = 100
+
+    ## simulate
+    simulate_grid(xycoord, grille, r, iterations, outfile)

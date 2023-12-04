@@ -16,22 +16,23 @@ void print_sensor_pos(int len, struct Capteur* capteurs) {
     
 }
 
-double simpoint(int len, struct Capteur* capteurs) {
+double simpoint(int len, struct Capteur* capteurs, double x, double y, double r, int iterations) {
   srandom(time(NULL));
-  double p = simulePaquets(capteurs, 2500, 3100, 10, 100);
+  double p = simulePaquets(capteurs, x, y, r, iterations);
   return p;
 }
 
-void simgrid(int len, struct Capteur* capteurs, const char* fname) {
+void simgrid(int len, struct Capteur* capteurs, struct Grille grille, double r, int iterations, const char* fname) {
   srandom(time(NULL));
 
   // E. Toute la grille
   FILE * file = fopen(fname, "w");
-  for (int y = 0; y < 25; y++) {
-    for (int x = 0; x < 40; x++) {
+  for (int j = 0; j < grille.n[1]; j++) {
+    for (int i = 0; i < grille.n[0]; i++) {
       // C. Simuler
-      double p = simulePaquets(capteurs, 100 + x * 200, 4900 - y * 200, 10, 100);
-
+      double x = grille.r0[0] + i * grille.dr[0];
+      double y = grille.r0[1] + j * grille.dr[1];
+      double p = simulePaquets(capteurs, x, y, r, iterations);
       // F. Ecrire un fichier CSV
       if (x > 0) fprintf(file, ", ");
       fprintf(file, "%.5f", p);

@@ -5,6 +5,12 @@ struct Capteur {
   int paquets;
 };
 
+struct Grille {
+  double r0[2];
+  double dr[2];
+  int n[2];
+};
+
 double randomNumber(double max);
 
 double plausibilite(double detectionsSimulees, double detectionsObservees);
