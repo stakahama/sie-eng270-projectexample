@@ -12,6 +12,7 @@ Import installed libraries.
 import sys
 from pathlib import Path
 import pandas as pd
+import json
 ```
 
 Set root directory.
@@ -34,6 +35,12 @@ sensors = pd.read_csv(ROOT.joinpath('data', 'capteurs.csv'), sep='\t')
 xycoord = capteurs_numeric(sensors)
 ```
 
+Read seed values.
+```{python}
+with open(ROOT.joinpath('data', 'seedvalues.json')) as f:
+     seeds = json.load(f)
+```
+
 # Validation
 
 Launching from (x = 2.5 km, y = 3.1 km, r = 10 m), verification from [sieprog.ch](https://sieprog.ch/#c/pollution) says:
@@ -49,7 +56,7 @@ For 100 packets, we expect 535\(\pm\)200 for S2 and 210\(\pm\)100 for S3. The fo
 ```{python}
 #| output: asis
 #| 
-out = simulate_point(xycoord, 2500, 3100, 10, 100)
+out = simulate_point(xycoord, 2500, 3100, 10, 100, seeds['point'])
 for i, paq in enumerate(out['paquets']):
     print(f'S{i:d}  {paq:d} paquets\n')
 print(f"Plausibilité: {out['plausibilite']:0.5f}\n")

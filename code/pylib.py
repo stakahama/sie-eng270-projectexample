@@ -70,26 +70,28 @@ def sensor_test(df):
 
 dll.simpoint.argtypes = (ctypes.c_int, ctypes.POINTER(Capteur),
                          ctypes.c_double, ctypes.c_double, ctypes.c_double,
-                         ctypes.c_int32)
+                         ctypes.c_int, ctypes.c_int)
 dll.simpoint.restype = ctypes.c_double
 
-def simulate_point(df, x, y, r, iterations):
+def simulate_point(df, x, y, r, iterations, seed):
     # Call the C function
     ctypes_struct_array = capteur2struct(df)
     p = dll.simpoint(len(ctypes_struct_array), ctypes_struct_array,
-                     x, y, r, iterations)
+                     x, y, r, iterations, seed)
     paquets = [ctypes_struct_array[i].paquets for i in range(len(ctypes_struct_array))]
     return {'plausibilite': p, 'paquets': paquets}
 
 ## -----------------------------------------------------------------------------
 
 dll.simgrid.argtypes = (ctypes.c_int, ctypes.POINTER(Capteur),
-                        Grille, ctypes.c_double, ctypes.c_int,
+                        Grille, ctypes.c_double,
+                        ctypes.c_int, ctypes.c_int,
                         ctypes.c_char_p)
 dll.simgrid.restype = None
 
-def simulate_grid(capteurs, grille, r, iterations, fname):
+def simulate_grid(capteurs, grille, r, iterations, seed, fname):
     # Call the C function
     ctypes_fname = ctypes.c_char_p(str(fname).encode('utf-8'))
     ctypes_struct_array = capteur2struct(capteurs)
-    return dll.simgrid(len(ctypes_struct_array), ctypes_struct_array, grille, r, iterations, ctypes_fname)
+    return dll.simgrid(len(ctypes_struct_array), ctypes_struct_array,
+                       grille, r, iterations, seed, ctypes_fname)
