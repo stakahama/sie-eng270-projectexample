@@ -148,9 +148,9 @@ to account for the fact that `srand` and `rand` are to be used in place of `sran
 
 The "*Makefile*" itself is not strictly necessary either. For simple cases, you can create a shell script called, for instance, "*build.sh*" in the root directory with the following contents:
 ```{bash}
-#/bin/bash
+#!/bin/bash
 mkdir -p bin
-gcc -Wall -fPIC -O2 -o bin/cmain.o -c code/cmain.c -lm
+gcc -Wall -fPIC -O2 -o bin/cmain.o -c code/cmain.c
 gcc -Wall -fPIC -O2 -o bin/cfunctions.o -c code/cfunctions.c -lm
 gcc -shared -o bin/clib.so bin/cmain.o bin/cfunctions.o
 ```
