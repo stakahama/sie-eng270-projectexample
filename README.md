@@ -5,27 +5,27 @@
 This program simulates the [pollution exercise](https://sieprog.ch/#c/pollution) ("Le bateau pollueur").
 
 The program will:
-1. Read in sensors locations found in "*data/capteur.csv*".
-2. Generate a table of plausibilities ("*results/plausibilite.csv*").
-3. Plot the table of plausibilities ("*results/plausibilite.csv*").
+1. Read in sensors locations found in "*data/capteurs.csv*".
+2. Generate a table of plausibilities ("*outputs/plausibilite.csv*").
+3. Plot the table of plausibilities ("*outputs/plausibilite.png*").
 
 ## Project structure
 
 - "*data/*" contains input data
-- "*results/*" contains program outputs
-- "*code/*" contains program code
-- "*code_reference/*" contains the original solution from sieprog.ch (in pure C) for comparison
+- "*outputs/*" contains program outputs
+- "*src/*" contains program code
+- "*soln_sieprog/*" contains the original solution from sieprog.ch (in pure C) for comparison
 - ("*bin/*") generated after compiling C code
-- "*documentation/*" contains a notebook illustrating use and validation of the code
+- "*docs/*" contains a notebook illustrating use and validation of the code
 
 ### Inputs and outputs
 
 Inputs:
-- "*data/sensors.csv*" is a tab-delimited file.
+- "*data/capteurs.csv*" is a tab-delimited file.
 
 Outputs:
-- "*results/plausibilite.csv*" is a comma-delimted file.
-- "*results/plot.png*" is an image file
+- "*outputs/plausibilite.csv*" is a comma-delimted file.
+- "*outputs/plausibilite.png*" is an image file
 
 ### Implementation details
 
@@ -34,12 +34,12 @@ Overview:
 - Python handles most of the I/O, which includes reading sensor information and formatting the output of the single point simulation.
 - For the grid simulation, the C program directly writes each simulation result to a CSV file designated by the calling Python script.
 
-Structure. In the directory "*code/*":
+Structure. In the directory "*src/*":
 - "*simulategrid.py*":
   - imports "*mylib.py*" as a module, which wraps the compiled C library file.
-  - reads in "*data/sensors.csv*" and executes the C code.
+  - reads in "*data/capteurs.csv*" and executes the C code.
 - "*analysis.py*":
-  - reads in the generated output ("*results/plausibilite.csv*") and makes the plot.
+  - reads in the generated output ("*outputs/plausibilite.csv*") and makes the plot.
 
 In each Python code, the project root directory is assigned using 
 
@@ -50,13 +50,13 @@ ROOT = Path(sys.path[0]).parent
 ```
 `sys.path[0]` is the directory of the script or noteoobk file, and not the working directory of the shell from which the code is called. This allows the following commands to produce equivalent output. Starting in the project root directory:
 ```
-$ python code/simulategrid.py
-$ cd code && python simulategrid.py
+$ python src/simulategrid.py
+$ cd src && python simulategrid.py
 ```
 This convention works for both Python scripts and Jupyter notebooks / Quarto documents, so the following two commands will also generate equivalent output.
 ```
-$ quarto render documentation/analysis.qmd --to-pdf
-$ cd code && quarto render analysis.qmd --to-pdf
+$ quarto render docs/analysis.qmd --to-pdf
+$ cd src && quarto render analysis.qmd --to-pdf
 ```
 
 ## Instructions
@@ -75,13 +75,13 @@ This command will run the program and generate all of the output described above
 
 To generate documentation for the validation, run the following command from the root directory:
 ```{sh}
-quarto render documentation/analysis.qmd --to pdf
+quarto render docs/analysis.qmd --to pdf
 ```
-This generates the file "*documentation/analysis.pdf*".
+This generates the file "*docs/analysis.pdf*".
 
 ## Requirements
 
-Versions of Python and C used are as follows. Optionally, the Quarto version is also included for rendering the "*documentation/analysis.qmd*" file. 
+Versions of Python and C used are as follows. Optionally, the Quarto version is also included for rendering the "*docs/analysis.qmd*" file. 
 ```
 $ python --version
 Python 3.9.18
@@ -98,7 +98,6 @@ The "*requirements.txt*" file for Python packages was generated with the command
 conda list --export > requirements.txt
 ```
 and deleting all but the relevant packages specifically used by this project.
-
 
 ## Credits
 

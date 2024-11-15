@@ -1,4 +1,4 @@
 #/bin/bash
 
-python code/simulategrid.py
-python code/makeplot.py
+python src/simulategrid.py
+python src/makeplot.py

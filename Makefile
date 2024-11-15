@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -fPIC -O2
 LIBS=-lm
-DIRCODE=code
+DIRCODE=src
 DIRBIN=bin
 TARGET=$(DIRBIN)/clib.so
 OBJ=$(DIRBIN)/cmain.o $(DIRBIN)/cfunctions.o

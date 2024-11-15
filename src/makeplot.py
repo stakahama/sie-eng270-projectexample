@@ -4,9 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 ROOT = Path(sys.path[0]).parent
-outfile = ROOT.joinpath('results', 'plausibilite.csv')
+outpath = ROOT.joinpath('outputs')
+inpfile = outpath.joinpath('plausibilite.csv')
+outfile = outpath.joinpath('plausibilite.png')
 
-plausibilite = np.genfromtxt(outfile, delimiter = ',')
+plausibilite = np.genfromtxt(inpfile, delimiter = ',')
 dx = 0.2
 dy = 0.2
 x = np.arange(0, plausibilite.shape[1] + 1) * dx
@@ -18,4 +20,4 @@ plt.pcolormesh(x, y, plausibilite)
 plt.xlabel('X coordinate [km]')
 plt.ylabel('Y coordinate [km]')
 # plt.show()
-plt.savefig(ROOT.joinpath('results', 'plausibilite.png'))
+plt.savefig(outfile)

@@ -16,10 +16,11 @@ if __name__ == '__main__':
 
     ROOT = Path(sys.path[0]).parent
 
-    outfile = ROOT.joinpath('results', 'plausibilite.csv')
+    inpfile = ROOT.joinpath('data', 'capteurs.csv')
+    outfile = ROOT.joinpath('outputs', 'plausibilite.csv')
 
     ## sensors    
-    sensors = pd.read_csv(ROOT.joinpath('data', 'capteurs.csv'), sep='\t')
+    sensors = pd.read_csv(inpfile, sep='\t')
     xycoord = capteurs_numeric(sensors)
 
     ## grid

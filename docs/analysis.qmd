@@ -17,7 +17,7 @@ import pandas as pd
 Set root directory.
 ```{python}
 ROOT = Path(sys.path[0]).parent
-sys.path.append(str(ROOT.joinpath('code')))
+sys.path.append(str(ROOT.joinpath('src')))
 ```
 
 Import project modules and functions.
