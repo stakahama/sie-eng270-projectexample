@@ -15,6 +15,7 @@ $(TARGET): $(OBJ)
 
 clean:
 	rm -f $(DIRBIN)/*.o $(DIRBIN)/*.so
+	rmdir $(DIRBIN)
 
 ## create the directory if it does not exist
 $(shell mkdir -p $(DIRBIN))

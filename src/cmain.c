@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include "cfunctions.h"
 
 void print_sensor_pos(int len, struct Capteur* capteurs) {
@@ -16,14 +15,14 @@ void print_sensor_pos(int len, struct Capteur* capteurs) {
     
 }
 
-double simpoint(int len, struct Capteur* capteurs, double x, double y, double r, int iterations) {
-  srandom(time(NULL));
+double simpoint(int len, struct Capteur* capteurs, double x, double y, double r, int iterations, int seed) {
+  srandom(seed);
   double p = simulePaquets(capteurs, x, y, r, iterations);
   return p;
 }
 
-void simgrid(int len, struct Capteur* capteurs, struct Grille grille, double r, int iterations, const char* fname) {
-  srandom(time(NULL));
+void simgrid(int len, struct Capteur* capteurs, struct Grille grille, double r, int iterations, int seed, const char* fname) {
+  srandom(seed);
 
   // E. Toute la grille
   FILE * file = fopen(fname, "w");

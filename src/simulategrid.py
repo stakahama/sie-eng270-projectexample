@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 import pandas as pd
+import json
 from pylib import simulate_grid, grille2struct
 
 def stripkm(string):
@@ -16,19 +17,27 @@ if __name__ == '__main__':
 
     ROOT = Path(sys.path[0]).parent
 
-    inpfile = ROOT.joinpath('data', 'capteurs.csv')
     outfile = ROOT.joinpath('outputs', 'plausibilite.csv')
-
+    
     ## sensors    
-    sensors = pd.read_csv(inpfile, sep='\t')
+    sensors = pd.read_csv(ROOT.joinpath('data', 'capteurs.csv'), sep='\t')
     xycoord = capteurs_numeric(sensors)
 
+    ## seed value
+    with open(ROOT.joinpath('data', 'seedvalues.json')) as f:
+        seeds = json.load(f)
+
+    ## parameters of simulation
+    with open(ROOT.joinpath('data', 'paramsimul.json')) as f:
+        param = json.load(f)
+        
     ## grid
-    grille = grille2struct(r0 = (100, 4900),
-                           rmax = (8000, 0),
-                           dr = (200, -200))
-    r = 10
-    iterations = 100
+    ## r0, rmax, and dr are tuples for (x, y) dimensions
+    grille = grille2struct(r0 = param["r0"],
+                           rmax = param["rmax"],
+                           dr = param["dr"])
+    r = param["r_init"]
+    iterations = param["iterations"]
 
     ## simulate
-    simulate_grid(xycoord, grille, r, iterations, outfile)
+    simulate_grid(xycoord, grille, r, iterations, seeds['grid'], outfile)
