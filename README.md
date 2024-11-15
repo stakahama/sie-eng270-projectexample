@@ -148,9 +148,15 @@ should be replaced with
 ```{lang-makefile}
 CFLAGS=-Wall -fPIC -O2 -Dsrandom=srand -Drandom=rand
 ```
-to account for the fact that `srand` and `rand` are to be used in place of `srandom` and `random`, respectively. It is possible to further automate this substitution by writing conditional statements in the "*Makefile*" based on the operating system, but it is not necessary for this project.
+to account for the fact that `srand` and `rand` are to be used in place of `srandom` and `random`, respectively. It is possible to further automate this substitution by writing conditional statements in the "*Makefile*" based on the operating system - e.g.,
+```{lang-makefile}
+ifeq ($(OS), Windows_NT)
+    CCFLAGS += -Dsrandom=srand -Drandom=rand
+endif
+```
+Alteratively create separate makefiles for each operating system - e.g., "*Makefile.win*" and "*Makefile.linux*" and so on, and the user must rename the appropriate file on their machine to "*Makefile*" before calling `make`.
 
-The "*Makefile*" itself is not strictly necessary either. For simple cases, you can create a shell script called, for instance, "*build.sh*" in the root directory with the following contents:
+The "*Makefile*" is a general build tool and is useful for projects with many files that need to be compiled. For simple cases, you can create a shell script called, for instance, "*build.bash*" in the root directory with the following contents:
 ```{bash}
 #!/bin/bash
 mkdir -p bin
@@ -160,6 +166,6 @@ gcc -shared -o bin/clib.so bin/cmain.o bin/cfunctions.o
 ```
 Then, the library files can be built with 
 ```{bash}
-bash build.sh
+bash build.bash
 ```
-before running `bash run.sh`.
+before running `bash run.bash`.
