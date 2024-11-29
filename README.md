@@ -5,7 +5,6 @@
 This program simulates the [pollution exercise](https://sieprog.ch/#c/pollution) ("Le bateau pollueur").
 
 The program will:
-<<<<<<< HEAD
 1. Read in inputs
    - sensor locations found in "*data/capteurs.csv*",
    - seed values for random number generation ("*data/seedvalues.json*"), and
